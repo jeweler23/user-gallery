@@ -11,17 +11,22 @@ const ageUser = ref(1);
 const isSortName = ref(false);
 const isSortAge = ref(false);
 onMounted(async () => {
-  const resp = await fetch('https://jsonplaceholder.typicode.com/users');
-  const data = await resp.json();
-  users.value = data.map((user: UsersFetch) => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        age: getRandomArbitrary(16, 20),
-        image: new URL(`./assets/person.png`, import.meta.url).href,
-      };
-  });
+  try {
+    const resp = await fetch('https://jsonplaceholder.typicode.com/users');
+    const data = await resp.json();
+    users.value = data.map((user: UsersFetch) => {
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          age: getRandomArbitrary(16, 20),
+          image: new URL(`./assets/person.png`, import.meta.url).href,
+        };
+    });
+  }
+   catch (error) {
+    console.log(error);
+  }
 });
 
 function getRandomArbitrary(min: number, max: number) {
